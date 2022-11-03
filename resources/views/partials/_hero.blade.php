@@ -3,7 +3,7 @@
         >
             <div
                 class="absolute top-0 left-0 w-full h-full opacity-10 bg-no-repeat bg-center"
-                style="background-image: url('images/laravel-logo.png')"
+                style="background-image: url('{{asset('images/laravel-logo.png')}}')"
             ></div>
 
             <div class="z-10">
@@ -13,6 +13,7 @@
                 <p class="text-2xl text-gray-200 font-bold my-4">
                     Find or post Laravel jobs & projects
                 </p>
+                @guest
                 <div>
                     <a
                         href="register.html"
@@ -20,5 +21,6 @@
                         >Sign Up to List a Gig</a
                     >
                 </div>
+                @endguest
             </div>
         </section>

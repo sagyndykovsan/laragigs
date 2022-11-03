@@ -18,7 +18,7 @@ class ListingController extends Controller
     public function index()
     {
         return view('listings.index', [
-            'listings' => Listing::all()
+            'listings' => Listing::latest()->filter(request(['tag', 'search']))->paginate(10)
         ]);
     }   
 
@@ -54,6 +54,8 @@ class ListingController extends Controller
             $validated['logo'] = $request->file('logo')->store('logos', 'public');
         }
 
+        $validated['user_id'] = auth()->id();
+
 
         Listing::create($validated);
 
@@ -81,6 +83,7 @@ class ListingController extends Controller
      */
     public function edit(Listing $listing)
     {
+
         return view('listings.edit', [
             'listing' => $listing
         ]);
@@ -95,6 +98,12 @@ class ListingController extends Controller
      */
     public function update(Request $request, Listing $listing)
     {
+
+        // Make sure logged in user is owner
+        if (auth()->id() != $listing->user_id) {
+            abort(403, 'Unautorized Action');
+        }
+
         $validated = $request->validate([
             'title' => 'required',
             'company' => ['required', Rule::unique('listings')->ignore($listing->id)],
@@ -123,6 +132,20 @@ class ListingController extends Controller
      */
     public function destroy(Listing $listing)
     {
-        //
+        // Make sure logged in user is owner
+        if (auth()->id() != $listing->user_id) {
+           abort(403, 'Unautorized Action');
+        }
+
+        $listing->delete();
+
+        return redirect('/')->with('message', 'Listing deleted');
+    }
+
+    public function manage()
+    {
+        return view('listings.manage', [
+            'listings' => auth()->user()->listings()->get()
+        ]);
     }
 }
