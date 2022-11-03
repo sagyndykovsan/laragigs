@@ -12,7 +12,7 @@
 
 ## Setting up on local enviroment
 If you download project make sure configuring .env file, after that you can run
-[`php artisan migrate:refresh --seed`]
+*[`php artisan migrate:refresh --seed`]
 
 
 
