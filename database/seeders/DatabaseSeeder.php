@@ -17,12 +17,22 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
-        // User::factory()->create([
-        //     'name' => 'Steve',
-        //     'email' => 'steve@gmail.com'
-        // ]);
+        User::factory()->create([
+            'name' => 'Steve',
+            'email' => 'steve@gmail.com'
+        ]);
 
-        Listing::factory(10)->create([
+        Listing::factory(50)->create([
+            'user_id' => '1'
+        ]);
+
+        User::factory()->create([
+            'name' => 'marko',
+            'email' => 'marko@gmail.com',
+            'password' => '$10$knrBIPw3yMAhqQkqLtzhwuEf91BJWmFPjfDGv1nBvUs8w2OLcrYsG'
+        ]);
+
+        Listing::factory(50)->create([
             'user_id' => '2'
         ]);
 
