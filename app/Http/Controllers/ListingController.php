@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Listing;
 use Illuminate\Http\Request;
 
+use function PHPSTORM_META\map;
+
 class ListingController extends Controller
 {
     /**
@@ -37,7 +39,19 @@ class ListingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required',
+            'company' => 'required|unique:listings',
+            'location' => 'required|string',
+            'email' => 'required|email',
+            'website' => 'required',
+            'tags' => 'required',
+            'description' => 'required'
+        ]);
+
+        Listing::create($validated);
+
+        return redirect('/')->with('message', 'Listing Created Succesfully');
     }
 
     /**
